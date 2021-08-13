@@ -1,7 +1,7 @@
 import React from 'react';
 import db from "../firebase"
 
-function Form({ inputText, setInputText, categories, setCategory }) {
+function Form({ inputText, setInputText, categories }) {
     const inputTextHandler = (e) => {
         console.log("value", e.target.value);
         setInputText(e.target.value);

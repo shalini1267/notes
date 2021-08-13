@@ -9,20 +9,17 @@ function App() {
 
   const [inputText, setInputText] = useState("");
   const [categories, setCategory] = useState([]);
-  const [notes, setNotes] = useState([]);
   const [activeCategory, setActiveCategory] = useState("");
+  const [NotesValue, setNotesValue] = useState("Select a Category");
 
   const ref = db.collection("Categories");
   const GetCategory = () => {
     ref.onSnapshot((querySnapshot) => {
       const arr = [];
-      const notes_arr = [];
       querySnapshot.forEach((doc) => {
         arr.push(doc.id);
-        notes_arr.push(doc.data());
       });
       setCategory(...categories, arr);
-      setNotes(...notes, notes_arr);
     });
   }
 
@@ -34,11 +31,11 @@ function App() {
     <div className="container">
       <div className="category">
         <Form inputText={inputText} setInputText={setInputText} categories={categories} setCategory={setCategory} />
-        <Categories categories={categories} notes={notes} setNotes={setNotes} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
+        <Categories categories={categories} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
       </div>
       <div className="notes">
         <div>Notes</div>
-        <Notes notes={notes} setNotes={setNotes}  activeCategory={activeCategory} />
+        <Notes activeCategory={activeCategory} NotesValue={NotesValue} setNotesValue={setNotesValue} />
       </div>
     </div>
   );

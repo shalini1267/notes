@@ -1,36 +1,60 @@
-import React, {useState} from "react"
+import React, { useEffect } from "react"
 import db from "../firebase"
 
-function Notes({ notes, setNotes, activeCategory }) {
-    
-    // const [TextAreaValue, setTextAreaValue] = useState("");
-    // if(activeCategory){setTextAreaValue(activeCategory.Notes);}
+function Notes({ activeCategory, NotesValue, setNotesValue }) {
 
-    // console.log("Active Doc", activeDoc);
-    // const TextAreaHandler = (e) => {
-    //     setTextAreaValue(e.target.value);
-    // }
+    const GetNotes = () => {
+        if (activeCategory) {
+            // var notes_val=activeCategory.data().Notes;
+            setNotesValue(activeCategory.data().Notes);
+            console.log("Notes", NotesValue);
+        }
+    }
 
-    // const saveHandler = () => {
-    //     setTextAreaValue("");
-    //     var docRef = db.collection("Categories").doc(activeDoc);
-    //     docRef.set({
-    //         Notes: TextAreaValue
-    //     })
-    //     .then(() => {
-    //         console.log("Document successfully written!");
-    //     })
-    //     .catch((error) => {
-    //         console.error("Error writing document: ", error);
-    //     });
-    //     setTextAreaValue(TextAreaValue);
-    // }
+    useEffect(() => {
+        GetNotes();
+    }, [activeCategory]);
+
+    const TextAreaHandler = (e) => {
+        console.log("shalini before", NotesValue);
+        setNotesValue(e.target.value);
+        console.log("shalini", NotesValue);
+    }
+
+    const saveHandler = (e) => {
+        e.preventDefault();
+
+        console.log("Value saved", NotesValue);
+        var docRef = db.collection("Categories").doc(activeCategory.id);
+        docRef.set({
+            Notes: NotesValue
+        })
+            .then(() => {
+                console.log("Document successfully written!");
+            })
+            .catch((error) => {
+                console.error("Error writing document: ", error);
+            });
+    }
+
+    const multipleNotesHandler = () => {
+        // db.collection("Categories").doc(activeCategory.id).set({
+        //     Notes: "",
+        //     id: Math.floor(Math.random() * 1000)
+        // })
+        //     .then(() => {
+        //         console.log("Document written ");
+        //     })
+        //     .catch((error) => {
+        //         console.error("Error adding document: ", error);
+        //     });
+    }
     return (
         <div>
-            <h1>This is note of a category</h1>
-            <textarea value={activeCategory.Notes} />
-            {/* <textarea onChange={TextAreaHandler} value={activeCategory} />
-            <button onClick={saveHandler}>Save</button> */}
+            <h1>Notes</h1>
+            <button onClick={multipleNotesHandler}>+</button>
+            <textarea onChange={TextAreaHandler} value={NotesValue} />
+            <button onClick={saveHandler}>Save</button>
         </div>
     );
 }
