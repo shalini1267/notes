@@ -11,8 +11,7 @@ function Form({ inputText, setInputText, categories }) {
         if (inputText !== "") {
             if (!categories.includes(inputText)) {
                 db.collection("Categories").doc(inputText).set({
-                    Notes: "",
-                    id: Math.floor(Math.random() * 1000)
+                    notes: []
                 })
                     .then(() => {
                         console.log("Document written ");

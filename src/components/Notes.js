@@ -5,9 +5,7 @@ function Notes({ activeCategory, NotesValue, setNotesValue }) {
 
     const GetNotes = () => {
         if (activeCategory) {
-            // var notes_val=activeCategory.data().Notes;
-            setNotesValue(activeCategory.data().Notes);
-            console.log("Notes", NotesValue);
+            setNotesValue(activeCategory.data().notes);
         }
     }
 
@@ -16,18 +14,14 @@ function Notes({ activeCategory, NotesValue, setNotesValue }) {
     }, [activeCategory]);
 
     const TextAreaHandler = (e) => {
-        console.log("shalini before", NotesValue);
         setNotesValue(e.target.value);
-        console.log("shalini", NotesValue);
     }
 
     const saveHandler = (e) => {
         e.preventDefault();
-
-        console.log("Value saved", NotesValue);
         var docRef = db.collection("Categories").doc(activeCategory.id);
         docRef.set({
-            Notes: NotesValue
+            notes: NotesValue
         })
             .then(() => {
                 console.log("Document successfully written!");

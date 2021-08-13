@@ -19,7 +19,7 @@ function App() {
       querySnapshot.forEach((doc) => {
         arr.push(doc.id);
       });
-      setCategory(...categories, arr);
+      setCategory(arr);
     });
   }
 

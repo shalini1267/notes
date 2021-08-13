@@ -17,8 +17,16 @@ function Category({ category, id, setActiveCategory }) {
         });
     };
 
+    const deleteHandler = () => {
+        db.collection("Categories").doc(id).delete().then(() => {
+            console.log("Document successfully deleted!", id);
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });
+    }
+
     return (
-        <div key={id} className="list-style" onClick={NotesHandler} >{category}</div>
+        <div key={id} className="list-style" onClick={NotesHandler} >{category}<button className="button-style" onClick={deleteHandler}>-</button></div>
     );
 }
 
